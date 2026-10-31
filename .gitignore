@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+docs/build/node_modules/
+docs/build/*.log
+~$*
+# submission bundle is rebuilt locally, not versioned
+*.zip
+.venv/
+venv/

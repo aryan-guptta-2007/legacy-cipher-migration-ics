@@ -1,0 +1,14 @@
+{
+  "name": "lcmf-docs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Builds the LCMF project report (.docx) and presentation (.pptx) from results/*.json",
+  "scripts": {
+    "report": "node build_report.js",
+    "slides": "node build_slides.js"
+  },
+  "dependencies": {
+    "docx": "9.5.1",
+    "pptxgenjs": "3.12.0"
+  }
+}

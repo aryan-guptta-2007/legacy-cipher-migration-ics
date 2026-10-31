@@ -1,0 +1,71 @@
+{
+  "environment": {
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+    "cryptography": "46.0.5"
+  },
+  "classical": [
+    {
+      "cipher": "Caesar",
+      "encrypt_us": 11.22,
+      "decrypt_us": 10.71
+    },
+    {
+      "cipher": "Additive",
+      "encrypt_us": 11.2,
+      "decrypt_us": 11.48
+    },
+    {
+      "cipher": "Affine",
+      "encrypt_us": 12.09,
+      "decrypt_us": 12.82
+    },
+    {
+      "cipher": "Vigenere",
+      "encrypt_us": 13.34,
+      "decrypt_us": 14.29
+    },
+    {
+      "cipher": "Playfair",
+      "encrypt_us": 13.42,
+      "decrypt_us": 10.34
+    },
+    {
+      "cipher": "Columnar",
+      "encrypt_us": 2.69,
+      "decrypt_us": 8.33
+    },
+    {
+      "cipher": "Plaintext",
+      "encrypt_us": 1.64,
+      "decrypt_us": 1.69
+    }
+  ],
+  "aes": [
+    {
+      "operation": "AES-256 block encrypt (educational)",
+      "us": 74.04
+    },
+    {
+      "operation": "AES-256 key expansion (educational)",
+      "us": 40.82
+    },
+    {
+      "operation": "AES-256-GCM seal 15 B (library)",
+      "us": 0.97
+    },
+    {
+      "operation": "AES-256-GCM open 15 B (library)",
+      "us": 0.96
+    },
+    {
+      "operation": "AES-256-GCM seal 15 B (educational)",
+      "us": 333.25
+    },
+    {
+      "operation": "AES-256-GCM open 15 B (educational)",
+      "us": 362.13
+    }
+  ]
+}

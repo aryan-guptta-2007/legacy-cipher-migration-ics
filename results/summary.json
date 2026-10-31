@@ -1,0 +1,60 @@
+{
+  "objectives": [
+    {
+      "id": "O1",
+      "objective": "Implement six legacy ciphers correctly",
+      "target": "100 % of textbook vectors; 0 round-trip failures on 10,000 frames per cipher",
+      "measured": "6/6 vectors; 0 failures in 70,000 round trips",
+      "met": true
+    },
+    {
+      "id": "O2",
+      "objective": "Implement AES-128/192/256 and GCM from first principles",
+      "target": "100 % of FIPS-197 / GCM vectors; bit-identical to library on 500 cases",
+      "measured": "9/9 vectors; 500/500 identical",
+      "met": true
+    },
+    {
+      "id": "O3",
+      "objective": "Translate legacy telemetry to AES-GCM without data loss or delay",
+      "target": "0 corrupted readings in all 4 modes; median gateway latency < 1 ms",
+      "measured": "0 corrupted of 14,400; worst median 33.5 us",
+      "met": true
+    },
+    {
+      "id": "O4",
+      "objective": "Break every legacy cipher from captured traffic",
+      "target": "key recovered from <= 3 frames in < 1 s for each cipher",
+      "measured": "6/6 keys; max 2 frames; max 81 ms",
+      "met": true
+    },
+    {
+      "id": "O5",
+      "objective": "Secure configuration blocks forged, replayed, tampered and downgraded frames",
+      "target": "0 % acceptance in every STRICT / PINNED / GCM scenario",
+      "measured": "max acceptance 0.0 % across 6 scenarios",
+      "met": true
+    },
+    {
+      "id": "O6",
+      "objective": "Identify and quantify transition vulnerabilities with mitigations",
+      "target": ">= 8 vulnerabilities, each with a measured mitigation",
+      "measured": "8 vulnerabilities (TV1-TV8) measured",
+      "met": true
+    },
+    {
+      "id": "O7",
+      "objective": "Keep the secure envelope within legacy-link budgets",
+      "target": "overhead <= 64 B/frame; 8-device scan at 9600 baud < 2 s cycle",
+      "measured": "53 B overhead; scan 567 ms",
+      "met": true
+    }
+  ],
+  "runtime_s": 8.5,
+  "environment": {
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+    "cryptography": "46.0.5"
+  }
+}

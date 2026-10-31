@@ -1,0 +1,324 @@
+[
+  {
+    "id": "TV1",
+    "title": "Legacy last-mile exposure and trust laundering",
+    "device": 4,
+    "trials": 60,
+    "scenarios": [
+      {
+        "defence": "gateway only",
+        "attack": "gross",
+        "key_recovered": "GRIDLOCK",
+        "frames_to_break": 1,
+        "aes_delivered_readings_exposed_pct": 100.0,
+        "forged_accepted_pct": 100.0
+      },
+      {
+        "defence": "gateway only",
+        "attack": "stealthy",
+        "key_recovered": "GRIDLOCK",
+        "frames_to_break": 1,
+        "aes_delivered_readings_exposed_pct": 100.0,
+        "forged_accepted_pct": 100.0
+      },
+      {
+        "defence": "gateway + plausibility filter",
+        "attack": "gross",
+        "key_recovered": "GRIDLOCK",
+        "frames_to_break": 1,
+        "aes_delivered_readings_exposed_pct": 100.0,
+        "forged_accepted_pct": 0.0
+      },
+      {
+        "defence": "gateway + plausibility filter",
+        "attack": "stealthy",
+        "key_recovered": "GRIDLOCK",
+        "frames_to_break": 1,
+        "aes_delivered_readings_exposed_pct": 100.0,
+        "forged_accepted_pct": 100.0
+      },
+      {
+        "defence": "native AES-GCM at the RTU (end-to-end)",
+        "attack": "tamper",
+        "key_recovered": null,
+        "frames_to_break": null,
+        "aes_delivered_readings_exposed_pct": 0.0,
+        "forged_accepted_pct": 0.0
+      }
+    ]
+  },
+  {
+    "id": "TV2",
+    "title": "Downgrade attack during hybrid operation",
+    "device": 3,
+    "trials": 60,
+    "modes": [
+      {
+        "mode": "HYBRID_PERMISSIVE",
+        "forged_accepted_pct": 100.0,
+        "unmigrated_device_supported": true,
+        "unmigrated_device_accept_pct": 100.0
+      },
+      {
+        "mode": "HYBRID_PINNED",
+        "forged_accepted_pct": 0.0,
+        "unmigrated_device_supported": true,
+        "unmigrated_device_accept_pct": 100.0
+      },
+      {
+        "mode": "STRICT_AES",
+        "forged_accepted_pct": 0.0,
+        "unmigrated_device_supported": false,
+        "unmigrated_device_accept_pct": null
+      }
+    ],
+    "legacy_key_recovered": [
+      5,
+      8
+    ]
+  },
+  {
+    "id": "TV3",
+    "title": "Replay and freshness laundering",
+    "trials": 60,
+    "cases": [
+      {
+        "case": "WAN replay of legacy frames",
+        "defence": "none (legacy)",
+        "replay_accepted_pct": 100.0
+      },
+      {
+        "case": "WAN replay of secure envelopes",
+        "defence": "64-bit seq + window + timestamp",
+        "replay_accepted_pct": 0.0,
+        "attempts": 120,
+        "rejection_reasons": {
+          "replayed sequence number": 60,
+          "stale or future timestamp": 60
+        }
+      },
+      {
+        "case": "Last-mile replay through the gateway",
+        "defence": "stateless gateway",
+        "replay_accepted_pct": 100.0
+      },
+      {
+        "case": "Last-mile replay through the gateway",
+        "defence": "legacy sequence tracking at gateway",
+        "replay_accepted_pct": 0.0
+      }
+    ]
+  },
+  {
+    "id": "TV4",
+    "title": "Malleability of legacy and unauthenticated AES",
+    "trials": 200,
+    "rows": [
+      {
+        "scheme": "Legacy Vigenere (+checksum patch)",
+        "integrity": "non-cryptographic checksum",
+        "tamper_success_pct": 81.5
+      },
+      {
+        "scheme": "AES-256-CBC, no MAC (IV bit flip)",
+        "integrity": "none",
+        "tamper_success_pct": 100.0
+      },
+      {
+        "scheme": "AES-256-CTR, no MAC (bit flip)",
+        "integrity": "none",
+        "tamper_success_pct": 100.0
+      },
+      {
+        "scheme": "AES-256-GCM (STE)",
+        "integrity": "128-bit GMAC tag",
+        "tamper_success_pct": 0.0
+      }
+    ]
+  },
+  {
+    "id": "TV5",
+    "title": "ECB pattern leakage",
+    "messages": 1440,
+    "abnormal_minutes": 62,
+    "rows": [
+      {
+        "mode": "AES-256-ECB",
+        "distinct_ciphertexts": 3,
+        "attacker_balanced_accuracy_pct": 100.0,
+        "outage_alarm_precision_pct": 100.0
+      },
+      {
+        "mode": "AES-256-GCM",
+        "distinct_ciphertexts": 1440,
+        "attacker_balanced_accuracy_pct": 50.04,
+        "outage_alarm_precision_pct": 4.31
+      }
+    ]
+  },
+  {
+    "id": "TV6",
+    "title": "AES-GCM nonce reuse after reboot",
+    "polls": 120,
+    "reboot_every_polls": 30,
+    "rows": [
+      {
+        "counter_storage": "RAM only",
+        "reboots": 3,
+        "envelopes": 960,
+        "nonce_collisions": 630,
+        "plaintext_recovered_pct": 100.0,
+        "post_reboot_delivery_pct": 0.0
+      },
+      {
+        "counter_storage": "persistent (reserved blocks)",
+        "reboots": 3,
+        "envelopes": 960,
+        "nonce_collisions": 0,
+        "plaintext_recovered_pct": 0.0,
+        "post_reboot_delivery_pct": 100.0
+      }
+    ]
+  },
+  {
+    "id": "TV7",
+    "title": "AES keys derived from legacy secrets",
+    "device": 4,
+    "wordlist_size": 178,
+    "rows": [
+      {
+        "key_derivation": "SHA-256(legacy keyword)",
+        "pivot_from_broken_legacy_key": true,
+        "dictionary_hit": "GRIDLOCK",
+        "guesses": 101,
+        "attack_ms": 0.51,
+        "effective_key_bits": 7.5
+      },
+      {
+        "key_derivation": "HKDF-SHA256(random 256-bit master)",
+        "pivot_from_broken_legacy_key": false,
+        "dictionary_hit": null,
+        "guesses": 178,
+        "attack_ms": 0.87,
+        "effective_key_bits": 256.0
+      }
+    ]
+  },
+  {
+    "id": "TV8",
+    "title": "Bandwidth and latency overhead",
+    "legacy_frame_bytes": 52,
+    "payload_bytes": 15,
+    "ste_bytes": 68,
+    "ste_overhead_bytes": 53,
+    "size_increase_pct": 30.8,
+    "link": [
+      {
+        "baud": 1200,
+        "legacy_ms": 433.33,
+        "ste_ms": 566.67,
+        "scan_8_devices_legacy_ms": 3466.7,
+        "scan_8_devices_ste_ms": 4533.3
+      },
+      {
+        "baud": 9600,
+        "legacy_ms": 54.17,
+        "ste_ms": 70.83,
+        "scan_8_devices_legacy_ms": 433.3,
+        "scan_8_devices_ste_ms": 566.7
+      },
+      {
+        "baud": 19200,
+        "legacy_ms": 27.08,
+        "ste_ms": 35.42,
+        "scan_8_devices_legacy_ms": 216.7,
+        "scan_8_devices_ste_ms": 283.3
+      },
+      {
+        "baud": 115200,
+        "legacy_ms": 4.51,
+        "ste_ms": 5.9,
+        "scan_8_devices_legacy_ms": 36.1,
+        "scan_8_devices_ste_ms": 47.2
+      }
+    ],
+    "gateway_latency": {
+      "library": {
+        "caesar": {
+          "median_us": 30.6,
+          "p95_us": 35.3,
+          "samples": 300
+        },
+        "additive": {
+          "median_us": 30.7,
+          "p95_us": 36.0,
+          "samples": 300
+        },
+        "affine": {
+          "median_us": 31.9,
+          "p95_us": 39.4,
+          "samples": 300
+        },
+        "vigenere": {
+          "median_us": 33.5,
+          "p95_us": 38.0,
+          "samples": 300
+        },
+        "playfair": {
+          "median_us": 30.9,
+          "p95_us": 39.0,
+          "samples": 300
+        },
+        "columnar": {
+          "median_us": 29.2,
+          "p95_us": 33.9,
+          "samples": 300
+        },
+        "none": {
+          "median_us": 20.8,
+          "p95_us": 24.8,
+          "samples": 300
+        }
+      },
+      "educational": {
+        "caesar": {
+          "median_us": 356.5,
+          "p95_us": 407.9,
+          "samples": 100
+        },
+        "additive": {
+          "median_us": 353.9,
+          "p95_us": 419.3,
+          "samples": 100
+        },
+        "affine": {
+          "median_us": 356.9,
+          "p95_us": 411.8,
+          "samples": 100
+        },
+        "vigenere": {
+          "median_us": 360.4,
+          "p95_us": 399.1,
+          "samples": 100
+        },
+        "playfair": {
+          "median_us": 359.0,
+          "p95_us": 410.5,
+          "samples": 100
+        },
+        "columnar": {
+          "median_us": 356.2,
+          "p95_us": 389.5,
+          "samples": 100
+        },
+        "none": {
+          "median_us": 347.2,
+          "p95_us": 418.0,
+          "samples": 100
+        }
+      }
+    },
+    "scan_cycle_ms": 2000,
+    "devices": 8
+  }
+]

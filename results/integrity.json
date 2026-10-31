@@ -1,0 +1,38 @@
+[
+  {
+    "mode": "LEGACY_ONLY",
+    "frames": 3600,
+    "delivered": 3600,
+    "delivered_pct": 100.0,
+    "corrupted": 0,
+    "secure_path": 0,
+    "legacy_path": 3600
+  },
+  {
+    "mode": "HYBRID_PERMISSIVE",
+    "frames": 3600,
+    "delivered": 3600,
+    "delivered_pct": 100.0,
+    "corrupted": 0,
+    "secure_path": 3150,
+    "legacy_path": 450
+  },
+  {
+    "mode": "HYBRID_PINNED",
+    "frames": 3600,
+    "delivered": 3600,
+    "delivered_pct": 100.0,
+    "corrupted": 0,
+    "secure_path": 3150,
+    "legacy_path": 450
+  },
+  {
+    "mode": "STRICT_AES",
+    "frames": 3600,
+    "delivered": 3600,
+    "delivered_pct": 100.0,
+    "corrupted": 0,
+    "secure_path": 3600,
+    "legacy_path": 0
+  }
+]

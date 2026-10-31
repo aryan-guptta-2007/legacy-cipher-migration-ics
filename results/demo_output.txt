@@ -1,0 +1,132 @@
+
+================================================================================================
+ LCMF v1.0.0 - Legacy Cipher Migration Framework for ICS: guided demonstration
+================================================================================================
+Scenario: a distribution utility with eight 11 kV feeders. Each RTU still speaks a historical
+cipher. The protocol-translation gateway wraps their telemetry into AES-256-GCM envelopes, and
+we measure what can still go wrong during the migration.
+
+================================================================================================
+ Module 1 - Legacy cipher suite on one telemetry frame
+================================================================================================
+  plaintext frame : RTU01SEQ1001VLT10791CUR1812FRQ5000PWR03217BRKCCHK000
+  Caesar    k=3                                -> UWX34VHT4334YOW43AC4FXU4B45IUT8333SZU3654AEUNFFKN333
+  Additive  k=17                               -> 8ABHI9V7IHHIC2AIHOQITB8IPIJW87MHHH6D8HKJIOS81TTY1HHH
+  Affine    a=5, b=8                           -> V5A4902Q9449F15943D9SAV989E7VQT444LKV4JE93NVWSSHW444
+  Vigenere  key='GRIDLOCK' (L=8)               -> XA23C6G07H846ZVB6OH4N8TBEIAI247A6HXZ2E5C7OJUVQERQH83
+  Playfair  keyword='SUBSTATION' (6x6)         -> VBBZYTNW2112WKD71673NBV0723EVR6Z3RYRXV1Y326TVJFRNJJ13R3R
+  Columnar  key='BREAKER' (cols=7)             -> 007803CRQTURWB0U00150K0SV1201H119102CT11RQRR0ELCFP7K
+
+================================================================================================
+ Module 2 - AES-256 from first principles (FIPS-197 Appendix C.3)
+================================================================================================
+  key        000102...1f
+  plaintext  00112233445566778899aabbccddeeff
+  ciphertext 8ea2b7ca516745bfeafc49904b496089
+  expected   8ea2b7ca516745bfeafc49904b496089   -> PASS
+
+================================================================================================
+ Module 3 - Protocol-translation gateway (HYBRID_PINNED migration phase)
+================================================================================================
+
+  Device 1 [BRIDGED] Substation A / Feeder 1  cipher=caesar
+    legacy wire  : UWX34VHT4335YOW43B39FXU4B98IUT8333SZU36649EUNFFKN339
+    plaintext    : RTU01SEQ1002VLT10806CUR1865FRQ5000PWR03316BRKCCHK006
+    STE (68 B)  : 4c430101010001000100000000000000010000019bc0ab24006a7e00010000000000000001...
+    STE header   : dev=1 seq=1 key_id=1 nonce=6a7e00010000000000000001
+    SCADA        : ACCEPTED via secure -> V=10806 V  I=186.5 A  f=50.0 Hz  P=3316 kW
+
+  Device 2 [BRIDGED] Substation A / Feeder 2  cipher=additive
+    legacy wire  : 8ABHJ9V7JHHIC2AIHOQLTB8IMKQW87MHHH6D8HJOKKS81TTY1HIK
+    plaintext    : RTU02SEQ2001VLT10794CUR1539FRQ5000PWR02733BRKCCHK013
+    STE (68 B)  : 4c430101010001000200000000000000010000019bc0ab24006a7e00010000000000000001...
+    STE header   : dev=2 seq=1 key_id=1 nonce=6a7e00010000000000000001
+    SCADA        : ACCEPTED via secure -> V=10794 V  I=153.9 A  f=50.0 Hz  P=2733 kW
+
+  Device 3 [BRIDGED] Substation B / Feeder 3  cipher=affine
+    legacy wire  : V5A4J02QJ449F15943DDSAVEEOT7VQT444LKV4JD8DNVWSSHW4ED
+    plaintext    : RTU03SEQ3001VLT10799CUR2245FRQ5000PWR03989BRKCCHK029
+    STE (68 B)  : 4c430101010001000300000000000000010000019bc0ab24006a7e00010000000000000001...
+    STE header   : dev=3 seq=1 key_id=1 nonce=6a7e00010000000000000001
+    SCADA        : ACCEPTED via secure -> V=10799 V  I=224.5 A  f=50.0 Hz  P=3989 kW
+
+  Device 4 [BRIDGED] Substation B / Feeder 4  cipher=vigenere
+    legacy wire  : XA23F6G0AH846ZVB6OHCN8TC6P9I247A6HXZ2E5GFPJUVQERQHA9
+    plaintext    : RTU04SEQ4001VLT10799CUR2081FRQ5000PWR03698BRKCCHK026
+    STE (68 B)  : 4c430101010001000400000000000000010000019bc0ab24006a7e00010000000000000001...
+    STE header   : dev=4 seq=1 key_id=1 nonce=6a7e00010000000000000001
+    SCADA        : ACCEPTED via secure -> V=10799 V  I=208.1 A  f=50.0 Hz  P=3698 kW
+
+  Device 5 [BRIDGED] Substation C / Feeder 5  cipher=playfair
+    legacy wire  : VBBZ4UNW6Z12WKD71673NBV0T73CVR6Z3RYRXV1Y1YBCVJFRNJJ1Y6
+    plaintext    : RTU05SEQ5001VLT10791CUR1710FRQ5000PWR03036BRKCCHK004
+    STE (68 B)  : 4c430101010001000500000000000000010000019bc0ab24006a7e00010000000000000001...
+    STE header   : dev=5 seq=1 key_id=1 nonce=6a7e00010000000000000001
+    SCADA        : ACCEPTED via secure -> V=10791 V  I=171.0 A  f=50.0 Hz  P=3036 kW
+
+  Device 6 [BRIDGED] Substation C / Feeder 6  cipher=columnar
+    legacy wire  : 007903CRQTURWB0U00150K2SV9703H616304CT61RQRR2ELCFP2K
+    plaintext    : RTU06SEQ6001VLT10769CUR1937FRQ5000PWR03432BRKCCHK022
+    STE (68 B)  : 4c430101010001000600000000000000010000019bc0ab24006a7e00010000000000000001...
+    STE header   : dev=6 seq=1 key_id=1 nonce=6a7e00010000000000000001
+    SCADA        : ACCEPTED via secure -> V=10769 V  I=193.7 A  f=50.0 Hz  P=3432 kW
+
+  Device 7 [LEGACY_DIRECT] Pumping Station / Feeder 7  cipher=none
+    legacy wire  : RTU07SEQ7001VLT10812CUR1318FRQ5000PWR02345BRKCCHK008
+    plaintext    : RTU07SEQ7001VLT10812CUR1318FRQ5000PWR02345BRKCCHK008
+    SCADA        : ACCEPTED via legacy -> V=10812 V  I=131.8 A  f=50.0 Hz  P=2345 kW
+
+  Device 8 [NATIVE_AES] Solar Park / Feeder 8  cipher=aes-256-gcm
+    STE (68 B)  : 4c430101020001000800000000000000010000019bc0ab24005e0000080000000000000001...
+    STE header   : dev=8 seq=1 key_id=1 nonce=5e0000080000000000000001
+    SCADA        : ACCEPTED via secure -> V=10812 V  I=268.4 A  f=50.0 Hz  P=4775 kW
+
+================================================================================================
+ Module 4 - Downlink: SCADA breaker command through the gateway
+================================================================================================
+  OPEN -> device 4 (BRIDGED): executed OPEN; breaker_closed=False
+  OPEN -> device 7 (LEGACY_DIRECT): executed OPEN; breaker_closed=False
+  OPEN -> device 8 (NATIVE_AES): executed OPEN; breaker_closed=False
+
+================================================================================================
+ Module 5 - Cryptanalysis: an eavesdropper breaks every legacy cipher
+================================================================================================
+Dev  Cipher     Recovered key             Result   Frames  Keys tried  Time ms 
+---  ---------  ------------------------  -------  ------  ----------  --------
+1    caesar     3                         BROKEN   1       36          0.6     
+2    additive   17                        BROKEN   1       36          0.6     
+3    affine     (5, 8)                    BROKEN   1       432         7.6     
+4    vigenere   GRIDLOCK                  BROKEN   1       8           0.2     
+5    playfair   SUBSTATION                BROKEN   1       178         4.9     
+6    columnar   [3, 0, 2, 5, 4, 1, 6]     BROKEN   2       5912        87.2    
+
+================================================================================================
+ Module 6 - Transition vulnerabilities (attack success, lower is better)
+================================================================================================
+  TV1 last-mile FDIA [gross   ] gateway only                               forged accepted  100.0 %
+  TV1 last-mile FDIA [stealthy] gateway only                               forged accepted  100.0 %
+  TV1 last-mile FDIA [gross   ] gateway + plausibility filter              forged accepted    0.0 %
+  TV1 last-mile FDIA [stealthy] gateway + plausibility filter              forged accepted  100.0 %
+  TV1 last-mile FDIA [tamper  ] native AES-GCM at the RTU (end-to-end)     forged accepted    0.0 %
+  TV2 downgrade      HYBRID_PERMISSIVE                                   forged accepted  100.0 %
+  TV2 downgrade      HYBRID_PINNED                                       forged accepted    0.0 %
+  TV2 downgrade      STRICT_AES                                          forged accepted    0.0 %
+  TV3 WAN replay of legacy frames        none (legacy)              replay accepted  100.0 %
+  TV3 WAN replay of secure envelopes     64-bit seq + window + time replay accepted    0.0 %
+  TV3 Last-mile replay through the gatew stateless gateway          replay accepted  100.0 %
+  TV3 Last-mile replay through the gatew legacy sequence tracking a replay accepted    0.0 %
+  TV4 tamper         Legacy Vigenere (+checksum patch)                   success           84.0 %
+  TV4 tamper         AES-256-CBC, no MAC (IV bit flip)                   success          100.0 %
+  TV4 tamper         AES-256-CTR, no MAC (bit flip)                      success          100.0 %
+  TV4 tamper         AES-256-GCM (STE)                                   success            0.0 %
+  TV5 pattern leak   AES-256-ECB                                         attacker acc.    100.0 %
+  TV5 pattern leak   AES-256-GCM                                         attacker acc.     50.0 %
+  TV6 nonce reuse    RAM only                                            collisions         280
+  TV6 nonce reuse    persistent (reserved blocks)                        collisions           0
+  TV7 key derivation SHA-256(legacy keyword)                             dictionary hit  GRIDLOCK
+  TV7 key derivation HKDF-SHA256(random 256-bit master)                  dictionary hit    None
+  TV8 overhead       legacy 52 B -> STE 68 B (+30.8 %), median gateway latency 35 us
+
+================================================================================================
+ Demonstration complete - see results/ and docs/ for the full evaluation
+================================================================================================

@@ -1,0 +1,150 @@
+{
+  "vectors": [
+    {
+      "module": "Caesar",
+      "test": "ATTACKATDAWN (Z26)",
+      "expected": "DWWDFNDWGDZQ",
+      "got": "DWWDFNDWGDZQ",
+      "pass": true
+    },
+    {
+      "module": "Additive",
+      "test": "HELLO, k=15 (Z26)",
+      "expected": "WTAAD",
+      "got": "WTAAD",
+      "pass": true
+    },
+    {
+      "module": "Affine",
+      "test": "AFFINECIPHER, a=5 b=8",
+      "expected": "IHHWVCSWFRCP",
+      "got": "IHHWVCSWFRCP",
+      "pass": true
+    },
+    {
+      "module": "Vigenere",
+      "test": "ATTACKATDAWN, LEMON",
+      "expected": "LXFOPVEFRNHR",
+      "got": "LXFOPVEFRNHR",
+      "pass": true
+    },
+    {
+      "module": "Playfair",
+      "test": "HIDETHEGOLD..., PLAYFAIREXAMPLE",
+      "expected": "BMODZBXDNABEKUDMUIXMMOUVIF",
+      "got": "BMODZBXDNABEKUDMUIXMMOUVIF",
+      "pass": true
+    },
+    {
+      "module": "Columnar",
+      "test": "WEAREDISCOVERED..., ZEBRAS",
+      "expected": "EVLNACDTESEAROFODEECWIREE",
+      "got": "EVLNACDTESEAROFODEECWIREE",
+      "pass": true
+    },
+    {
+      "module": "AES-128",
+      "test": "FIPS-197 App. C encrypt",
+      "expected": "69c4e0d86a7b0430d8cdb78070b4c55a",
+      "got": "69c4e0d86a7b0430d8cdb78070b4c55a",
+      "pass": true
+    },
+    {
+      "module": "AES-128",
+      "test": "FIPS-197 App. C decrypt",
+      "expected": "00112233445566778899aabbccddeeff",
+      "got": "00112233445566778899aabbccddeeff",
+      "pass": true
+    },
+    {
+      "module": "AES-192",
+      "test": "FIPS-197 App. C encrypt",
+      "expected": "dda97ca4864cdfe06eaf70a0ec0d7191",
+      "got": "dda97ca4864cdfe06eaf70a0ec0d7191",
+      "pass": true
+    },
+    {
+      "module": "AES-192",
+      "test": "FIPS-197 App. C decrypt",
+      "expected": "00112233445566778899aabbccddeeff",
+      "got": "00112233445566778899aabbccddeeff",
+      "pass": true
+    },
+    {
+      "module": "AES-256",
+      "test": "FIPS-197 App. C encrypt",
+      "expected": "8ea2b7ca516745bfeafc49904b496089",
+      "got": "8ea2b7ca516745bfeafc49904b496089",
+      "pass": true
+    },
+    {
+      "module": "AES-256",
+      "test": "FIPS-197 App. C decrypt",
+      "expected": "00112233445566778899aabbccddeeff",
+      "got": "00112233445566778899aabbccddeeff",
+      "pass": true
+    },
+    {
+      "module": "AES-128",
+      "test": "FIPS-197 App. B",
+      "expected": "3925841d02dc09fbdc118597196a0b32",
+      "got": "3925841d02dc09fbdc118597196a0b32",
+      "pass": true
+    },
+    {
+      "module": "AES-GCM",
+      "test": "GCM spec test case 2 (C||T)",
+      "expected": "0388dace60b6a392f328c2b971b2fe78ab6e47d42cec13bdf53a67b21257bddf",
+      "got": "0388dace60b6a392f328c2b971b2fe78ab6e47d42cec13bdf53a67b21257bddf",
+      "pass": true
+    },
+    {
+      "module": "AES-GCM",
+      "test": "GCM spec test case 3 (tag)",
+      "expected": "4d5c2af327cd64a62cf35abd2ba6fab4",
+      "got": "4d5c2af327cd64a62cf35abd2ba6fab4",
+      "pass": true
+    }
+  ],
+  "roundtrip": [
+    {
+      "cipher": "Caesar",
+      "frames": 10000,
+      "failures": 0
+    },
+    {
+      "cipher": "Additive",
+      "frames": 10000,
+      "failures": 0
+    },
+    {
+      "cipher": "Affine",
+      "frames": 10000,
+      "failures": 0
+    },
+    {
+      "cipher": "Vigenere",
+      "frames": 10000,
+      "failures": 0
+    },
+    {
+      "cipher": "Playfair",
+      "frames": 10000,
+      "failures": 0
+    },
+    {
+      "cipher": "Columnar",
+      "frames": 10000,
+      "failures": 0
+    },
+    {
+      "cipher": "Plaintext",
+      "frames": 10000,
+      "failures": 0
+    }
+  ],
+  "gcm_cross_check": {
+    "cases": 500,
+    "identical": 500
+  }
+}

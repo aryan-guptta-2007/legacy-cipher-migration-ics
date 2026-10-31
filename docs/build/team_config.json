@@ -1,0 +1,109 @@
+{
+  "_instructions": "Replace every [bracketed] value, then run build_all.bat (or: python scripts/generate_figures.py && cd docs/build && node build_report.js && node build_slides.js && python export_pdf.py).",
+  "university": "[University Name]",
+  "school": "School of Computer Science Engineering & Technology",
+  "programme": "[Programme, e.g. B.Tech. (CSE)]",
+  "semester": "[Semester]",
+  "course_code": "[Course Code]",
+  "course_name": "[Course Name]",
+  "faculty": "[Faculty Name]",
+  "faculty_designation": "[Designation, Department]",
+  "academic_year": "2026-27",
+  "submission_month": "November 2026",
+  "city": "[City]",
+  "project_title": "Legacy Cipher Migration Framework for Industrial Control Systems",
+  "project_subtitle": "A Protocol-Translation Gateway from Classical Ciphers to AES-256-GCM for Smart-Grid Telemetry, with a Study of Transition Vulnerabilities",
+  "members": [
+    {
+      "name": "[Student Name 1]",
+      "enrolment": "[Enrolment No. 1]",
+      "role": "Legacy Cipher Suite, Cryptanalysis & Result Visualisation",
+      "code": [
+        "lcmf/classical/*",
+        "lcmf/analysis/cryptanalysis.py",
+        "scripts/generate_figures.py",
+        "tests/test_classical.py",
+        "tests/test_cryptanalysis.py"
+      ],
+      "work": [
+        "Designed the Z36 alphabet abstraction and the common ClassicalCipher interface",
+        "Implemented Caesar, Additive, Affine, Vigenere, Playfair (5x5 and 6x6) and Columnar transposition",
+        "Verified all ciphers against published textbook vectors and 70,000 telemetry round trips",
+        "Built the cryptanalysis module: exhaustive search, template-constrained Vigenere attack, Playfair dictionary and codebook attacks, Friedman/Kasiski/chi-squared tools",
+        "Discovered and documented the transposition-blind legacy checksum",
+        "Built the figure pipeline that turns results/*.json into every chart and diagram of the report and slides"
+      ],
+      "report": [
+        "Chapter 2 (sections 2.1-2.4: classical ciphers and their cryptanalysis)",
+        "Section 4.4 (legacy cipher design)",
+        "Section 5.2",
+        "Section 6.3"
+      ],
+      "slides": "Slides 6-9 (legacy ciphers and how they fall)"
+    },
+    {
+      "name": "[Student Name 2]",
+      "enrolment": "[Enrolment No. 2]",
+      "role": "Modern Cryptography Engine, Secure Envelope & Experiment Validation",
+      "code": [
+        "lcmf/modern/*",
+        "lcmf/gateway/envelope.py",
+        "lcmf/analysis/transition_crypto.py",
+        "lcmf/analysis/experiments.py",
+        "lcmf/analysis/benchmark.py",
+        "tests/test_modern.py",
+        "tests/test_transition_crypto.py"
+      ],
+      "work": [
+        "Implemented AES-128/192/256 from first principles (GF(2^8) arithmetic, derived S-box, key expansion)",
+        "Implemented ECB, CBC, CTR and GCM (GHASH in GF(2^128)); cross-validated against the cryptography library",
+        "Designed the 68-byte Secure Telemetry Envelope with header-as-AAD",
+        "Implemented HKDF key store, persistent nonce manager and anti-replay window",
+        "Designed and ran crypto transition experiments TV4-TV7",
+        "Built the experiment runner, published-vector validation, benchmarks and the objectives evaluation (results/*.json)"
+      ],
+      "report": [
+        "Chapter 2 (sections 2.5-2.6: AES and authenticated encryption)",
+        "Section 4.5 (secure envelope and key management)",
+        "Sections 5.3, 5.6",
+        "Sections 6.1, 6.2, 6.5.4-6.5.7"
+      ],
+      "slides": "Slides 10-13 (AES engine, envelope, crypto pitfalls)"
+    },
+    {
+      "name": "[Student Name 3]",
+      "enrolment": "[Enrolment No. 3]",
+      "role": "Smart-Grid Simulation, Gateway & System Evaluation",
+      "code": [
+        "lcmf/grid/*",
+        "lcmf/gateway/gateway.py",
+        "lcmf/gateway/policy.py",
+        "lcmf/gateway/plausibility.py",
+        "lcmf/gateway/__init__.py",
+        "lcmf/analysis/transition_system.py",
+        "lcmf/cli.py",
+        "tests/test_gateway.py",
+        "tests/test_transition_system.py"
+      ],
+      "work": [
+        "Built the 11 kV feeder model, legacy RTUs, upgraded RTU, SCADA master and network simulator",
+        "Implemented the bidirectional protocol-translation gateway and the four migration modes",
+        "Implemented the plausibility filter and legacy-sequence tracking mitigations",
+        "Designed and ran system transition experiments TV1-TV3 and TV8",
+        "Built the command-line interface and the guided viva demonstration"
+      ],
+      "report": [
+        "Chapter 2 (sections 2.7-2.9: ICS protocols and existing migration approaches)",
+        "Sections 4.1-4.3, 4.6 (architecture, data design, gateway)",
+        "Sections 5.4, 5.7",
+        "Sections 6.4, 6.5.1-6.5.3, 6.5.8"
+      ],
+      "slides": "Slides 14-18 and 20 (gateway, migration, transition vulnerabilities, live demo)"
+    }
+  ],
+  "shared": [
+    "Problem analysis, requirements and feasibility study (Chapters 1 and 3)",
+    "Integration testing and the end-to-end demonstration",
+    "Report compilation, proof-reading and the presentation"
+  ]
+}
